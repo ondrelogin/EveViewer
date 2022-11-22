@@ -22,8 +22,10 @@ namespace EveViewer.Core.Services
         Name = "The Forge"
       });
 
-      await Task.Delay(5);
-
+      // adding artificial delay to mimic real life, was using await Task.Delay but
+      //   that hung the process.
+      System.Threading.Thread.Sleep(5);
+      
       return list;
     }
   }

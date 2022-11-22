@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using EveViewer.Core.Models;
 using EveViewer.Core.Services;
+using MvvmCross;
+using MvvmCross.Commands;
+using MvvmCross.Navigation;
 using MvvmCross.ViewModels;
 
 namespace EveViewer.Core.ViewModels
@@ -9,22 +11,27 @@ namespace EveViewer.Core.ViewModels
   public class GalaxyViewModel : MvxViewModel
   {
     private readonly IEveDataService _dataSvc;
+    private readonly ObservableCollection<GalaxyRegionViewModel> _regions;
 
-    private ObservableCollection<RegionModel> _regions;
-
-    public ObservableCollection<RegionModel> Regions => _regions;
-
-    public GalaxyViewModel()
+    public ObservableCollection<GalaxyRegionViewModel> Regions => _regions;
+    
+    public GalaxyViewModel(IEveDataService dataSvc)
     {
-      _dataSvc = new FakeEveDataService();
-      _regions = new ObservableCollection<RegionModel>();
+      _dataSvc = dataSvc;
+      _regions = new ObservableCollection<GalaxyRegionViewModel>();
     }
 
-    public async void OnLoadedAsync()
+    public override async Task Initialize()
     {
-      foreach (var reg in await _dataSvc.LoadAllRegionsAsync())
+      await base.Initialize();
+
+      var list = await _dataSvc.LoadAllRegionsAsync();
+      foreach (var reg in list)
       {
-        _regions.Add(reg);
+        var vm = Mvx.IoCProvider.Resolve<GalaxyRegionViewModel>();
+        vm.Id = reg.Id;
+        vm.Name = reg.Name;
+        _regions.Add(vm);
       }
     }
   }

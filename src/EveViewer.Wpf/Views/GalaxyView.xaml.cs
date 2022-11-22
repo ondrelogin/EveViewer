@@ -14,11 +14,5 @@ namespace EveViewer.Wpf.Views
     {
       this.InitializeComponent();
     }
-
-    private void View_Loaded(object sender, RoutedEventArgs e)
-    {
-      var asVm = this.DataContext as GalaxyViewModel;
-      if (asVm != null) { asVm.OnLoadedAsync(); }
-    }
   }
 }

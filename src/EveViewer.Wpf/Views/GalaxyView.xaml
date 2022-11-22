@@ -8,7 +8,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
         xmlns:local="clr-namespace:EveViewer.Wpf.Views"
         mc:Ignorable="d" 
-        d:DesignHeight="450" d:DesignWidth="800" Loaded="View_Loaded">
+        d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -34,14 +34,20 @@
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Border Width="200" Height="75"
+                    <Button Width="200" Height="75"
                             Background="#4e4e4e"
-                            CornerRadius="15"
                             Margin="5,10,5,10"
-                            Padding="15">
+                            Padding="15"
+                            Command="{Binding ShowDetailsCommand}"
+                            >
+                        <Button.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius" Value="15" />
+                            </Style>
+                        </Button.Resources>
                         <TextBlock Text="{Binding Name}"
-                                   Foreground="#FFcbcbcb"/>
-                    </Border>
+                                   Foreground="#FFcbcbcb" />
+                    </Button>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
